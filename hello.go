@@ -1,7 +1,16 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"learn-go/util"
+)
 
 func main() {
-    fmt.Printf("hello, world\n")
+
+	message := "hello"
+	dh := util.Hash(message)
+
+	fmt.Println(message)
+	fmt.Println(dh)
+
 }
