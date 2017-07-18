@@ -11,6 +11,6 @@ func main() {
 	dh := util.Hash(message)
 
 	fmt.Println(message)
-	fmt.Println(dh)
+	fmt.Printf(">%x<\n", dh)
 
 }
