@@ -1,37 +1,46 @@
 package main
 
 import (
-	"bytes"
+	"crypto"
+	"crypto/rand"
+	"crypto/rsa"
 	"fmt"
 	"learn-go/util"
 )
 
 func main() {
 
-	message := "hello"
-	dh := util.Hash(message)
+	// starting message
 
+	message := "hello"
 	fmt.Println("message : " + message)
+
+	// double has for message
+	dh := util.Hash(message)
 	fmt.Printf("hash : >%x<\n", dh)
 
-	for i := range dh {
-		fmt.Printf(" %x ", dh[i])
+	// generate a oprivate key
+	fmt.Println("generating a private key...")
+	privateKey := util.GetPrivateKey()
+	fmt.Println(privateKey)
+
+	// signature for the original message
+	fmt.Println("digital signature for message")
+	signature, err := rsa.SignPKCS1v15(rand.Reader, privateKey, crypto.SHA256, dh)
+
+	if err != nil {
+		fmt.Println(err.Error())
 	}
-	fmt.Println("temporary byte array : ")
+	fmt.Printf("signature : >%X<\n", signature)
 
-	var tmp = []byte{0x95, 0x95, 0xc9}
-	fmt.Printf("temp : "+">%x<\n", tmp)
+	// verify signature for the original document
+	publicKey := util.GetPublicKeyFromPrivateKey(privateKey)
+	err2 := rsa.VerifyPKCS1v15(publicKey, crypto.SHA256, dh, signature)
 
-	sl := dh[:3]
-	fmt.Printf("slicing hash : >%x<\n", sl)
-
-	if bytes.Equal(sl, tmp) {
-		fmt.Println("SAME")
-	}
-
-	// printing the full byte array
-	for j := range dh {
-		fmt.Printf("@x%x, ", dh[j])
+	if err2 == nil {
+		fmt.Println("signature is ok")
+	} else {
+		fmt.Println("Signature is KO")
 	}
 
 }

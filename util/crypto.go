@@ -1,7 +1,10 @@
 package util
 
 import (
+	"crypto/rand"
+	"crypto/rsa"
 	"crypto/sha256"
+	"fmt"
 )
 
 //Hash : double hash function
@@ -21,5 +24,19 @@ func Hash(s string) []byte {
 	r2 = h.Sum(nil)
 
 	return r2
+}
 
+// GetPrivateKey : generate a private key
+func GetPrivateKey() *rsa.PrivateKey {
+	privateKey, err := rsa.GenerateKey(rand.Reader, 2048)
+	if err != nil {
+		fmt.Println(err.Error())
+	}
+	return privateKey
+}
+
+// GetPublicKeyFromPrivateKey : retrieve public key from private key
+func GetPublicKeyFromPrivateKey(privateKey *rsa.PrivateKey) *rsa.PublicKey {
+	publicKey := &privateKey.PublicKey
+	return publicKey
 }
