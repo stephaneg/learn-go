@@ -17,7 +17,7 @@ func main() {
 		fmt.Printf("%b ", s[i])
 		fmt.Println()
 		strs = append(strs, fmt.Sprintf("%b ", s[i]))
-
 	}
 
+	fmt.Println(strs)
 }
