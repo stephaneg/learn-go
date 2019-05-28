@@ -1,4 +1,4 @@
-package codingmae
+package main
 
 import (
 	"fmt"
