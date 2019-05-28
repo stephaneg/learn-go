@@ -42,7 +42,7 @@ todo
 
 
 
-# message types
+# message type
 
 ## version
 payload :
