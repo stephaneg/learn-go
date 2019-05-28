@@ -5,7 +5,7 @@ import (
 	"crypto/rand"
 	"crypto/rsa"
 	"fmt"
-	"learn-go/util"
+	"util"
 )
 
 func main() {
