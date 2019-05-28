@@ -1,4 +1,4 @@
-package lean-go.util
+package util
 
 import (
 	"bytes"
