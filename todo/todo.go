@@ -1,87 +1,98 @@
 package todo
 
 import (
-  "errors"
-  "sync"
-  "github.com/rs/xid"
+	"errors"
+	"sync"
+
+	"github.com/rs/xid"
 )
 
-
 var (
-  list []Todo
-  mtx sync.RWMutex
-  once sync.Once
+	list []Todo
+	mtx  sync.RWMutex
+	once sync.Once
 )
 
 func init() {
-  once.Do(initialiseList)
+	once.Do(initialiseList)
 }
 
 func initialiseList() {
-  list = []Todo{}
+	list = []Todo{}
 }
 
+// Todo structure
 type Todo struct {
-  ID        string 'json:"id"'
-  Message   string 'json:"message"'
-  Complete  bool  'json:"complete"'
+	ID       string `json:"id"`
+	Message  string `json:"message"`
+	Complete bool   `json:"complete"`
 }
 
+// Get : recupere la liste de todo
 func Get() []Todo {
-  return list
+	return list
 }
 
+// Add : ajoute une entree
 func Add(message string) string {
-  t := newTodo(message)
-  mtx.Lock()
-  list = append(list, t)
-  mtx.Unlock()
-  return t.ID
+	t := newTodo(message)
+	mtx.Lock()
+	list = append(list, t)
+	mtx.Unlock()
+	return t.ID
 }
 
+// Delete : supprime une entree
 func Delete(id string) error {
-  location, err := findTodoLocation(id)
-  if err != nil {
-    return err
-  }
-  removeElementByLocation(location)
-  return nil
+	location, err := findTodoLocation(id)
+	if err != nil {
+		return err
+	}
+	removeElementByLocation(location)
+	return nil
 }
 
+// Complete : passe une tache au status completee
 func Complete(id string) error {
-  location, err := findTodoLocation(id)
-  if err != nil {
-    return err
-    }
-    setTodoCompleteByLocation(location)
-    return nil
+	location, err := findTodoLocation(id)
+	if err != nil {
+		return err
+	}
+	setTodoCompleteByLocation(location)
+	return nil
 }
 
 func newTodo(msg string) Todo {
-  return Todo{
-    ID: xid.New().String(),
-    Message: msg,
-    Complete: false
-  }
+	return Todo{
+		ID:       xid.New().String(),
+		Message:  msg,
+		Complete: false,
+	}
 }
 
 func findTodoLocation(id string) (int, error) {
-  mtx.RLock()
-  defer mtx.RUnlock()
-  for i,t :=range list {
-    if isMatchingID(t.ID, id) {
-      return i, nil
-    }
-  }
-  return 0, errors.New("could not find todo based on id")
+	mtx.RLock()
+	defer mtx.RUnlock()
+	for i, t := range list {
+		if isMatchingID(t.ID, id) {
+			return i, nil
+		}
+	}
+	return 0, errors.New("could not find todo based on id")
 }
 
-func setTodoCompletebyLocation(location int) {
-  mtx.Lock()
-  list[location].Complete = true
-  mtx.Unlock()
+func removeElementByLocation(i int) {
+	mtx.Lock()
+	list = append(list[:i], list[i+1:]...)
+	mtx.Unlock()
 }
 
-func isMatchingID(a string ,b string) bool {
-  return a==b
+func setTodoCompleteByLocation(location int) {
+	mtx.Lock()
+	list[location].Complete = true
+	mtx.Unlock()
+}
+
+func isMatchingID(a string, b string) bool {
+	return a == b
 }
