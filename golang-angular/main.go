@@ -21,7 +21,7 @@ func main() {
 		}
 	})
 
-	r.GET("/todo", handlers.GetTodoListHandler)
+	r.GET("/todo", handlers.GetTodoHandler)
 	r.POST("/todo", handlers.AddTodoHandler)
 	r.DELETE("/todo/:id", handlers.DeleteTodoHandler)
 	r.PUT("/todo", handlers.CompleteTodoHandler)
