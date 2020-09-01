@@ -6,7 +6,7 @@ import (
 	"path/filepath"
 
 	"github.com/gin-gonic/gin"
-	"github.com/stephstephg/learn-go/todo/handlers"
+	"github.com/stephstephg/learn-go/golang-angular/handlers"
 )
 
 func main() {
