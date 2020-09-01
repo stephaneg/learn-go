@@ -1,11 +1,12 @@
 package main
 
 import (
-	"learn-go/todo/handlers"
+	//"learn-go/todo/handlers"
 	"path"
 	"path/filepath"
 
 	"github.com/gin-gonic/gin"
+	"github.com/stephstephg/learn-go/todo/handlers"
 )
 
 func main() {
