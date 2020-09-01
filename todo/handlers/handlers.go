@@ -5,8 +5,8 @@ import (
   "io"
   "io/ioutil"
   "net/http"
-
   "github.com/gin-gonic/gin"
+  "learn-go/todo"
 )
 
 // GetTodoHandler returns all current todo
