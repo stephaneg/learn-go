@@ -1,7 +1,6 @@
 package main
 
 import (
-	//"learn-go/todo/handlers"
 	"path"
 	"path/filepath"
 
@@ -9,6 +8,11 @@ import (
 	"github.com/stephstephg/learn-go/golang-angular/handlers"
 )
 
+/*
+add a new to-do item : curl localhost:3000/todo -d '{"message": "finish writing the article"}'
+get all to-do items : curl localhost:3000/todo
+
+*/
 func main() {
 	r := gin.Default()
 	r.NoRoute(func(c *gin.Context) {
